@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div>введите текст</div>
+<input type="text" id="city_field">
+<div id="container"></div>
+<script>
+    function sendAjax(url){
+        return new Promise(
+                function (resolve, reject){
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('GET',url);
+                    xhr.resposeType = 'json';
+                    xhr.addEventListener('load',function(){
+                        resolve(xhr.response);
+                    });
+                    xhr.addEventListener('error', function(){
+                        reject();
+                    });
+                    xhr.send();
+                });
+    }
+    document.addEventListener('DOMContentLoaded', function(){
+        sendAjax('https://raw.githubusercontent.com/smelukov/citiesTest/master/cities.json').then(function (response){
+            var cityArr = [];
+            for(var name of JSON.parse(response)){
+                cityArr.push(name.name);
+            }
+            cityArr = cityArr.sort();
+            for(var i = 0; i < cityArr.length; i++ ){
+                var p = document.createElement('p');
+                p.innerHTML = cityArr[i];
+                container.appendChild(p);
+            }
+        });
+    });
+    city_field.addEventListener('change', function(){
+
+    });
+</script>
+</body>
+</html>
