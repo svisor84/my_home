@@ -1,77 +1,88 @@
 <!DOCTYPE html>
 <html>
+
 <head lang="en">
     <meta charset="UTF-8">
     <title></title>
 </head>
+
 <body>
 <style>
+    body {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+    }
     .container {
-        position:absolute;
-        width:100px;
-        height:100px;
-        background: #123;
+        position: absolute;
     }
 </style>
-<div class="container"></div>
+<!--<div class="container"></div>-->
 </body>
 <script>
     function getRandomArbitrary(min, max) {
         return Math.random() * (max - min) + min;
     }
-    function makeContainer(){
-        var r = Math.round(getRandomArbitrary(0,256));
-        var g = Math.round(getRandomArbitrary(0,256));
-        var b = Math.round(getRandomArbitrary(0,256));
 
-        var width = Math.round(getRandomArbitrary(50,101));
-        var height = Math.round(getRandomArbitrary(50,101));
+    function makeContainer() {
+        var r = Math.round(getRandomArbitrary(0, 256));
+        var g = Math.round(getRandomArbitrary(0, 256));
+        var b = Math.round(getRandomArbitrary(0, 256));
 
-        var left = Math.round(getRandomArbitrary(0,(document.documentElement.clientWidth - width)));
-        var top = Math.round(getRandomArbitrary(0,(document.documentElement.clientHeight - height)));
+        var width = Math.round(getRandomArbitrary(50, 101));
+        var height = Math.round(getRandomArbitrary(50, 101));
 
-        var borderRadius = Math.round(getRandomArbitrary(0,34));
+        var left = Math.round(getRandomArbitrary(0, (document.documentElement.clientWidth - width)));
+        var top = Math.round(getRandomArbitrary(0, (document.documentElement.clientHeight - height)));
+
+        var borderRadius = Math.round(getRandomArbitrary(0, 34));
 
         var div = document.createElement('div');
         div.className = "container";
-        div.style.backgroundColor = 'RGB('+r+','+g+','+b+')';
-        div.style.width = width+'px';
-        div.style.height = height+'px';
-        div.style.left = left+'px';
-        div.style.top = top+'px';
-        div.style.borderRadius = borderRadius+'px';
+        div.style.backgroundColor = 'RGB(' + r + ',' + g + ',' + b + ')';
+        div.style.width = width + 'px';
+        div.style.height = height + 'px';
+        div.style.left = left + 'px';
+        div.style.top = top + 'px';
+        div.style.borderRadius = borderRadius + 'px';
         document.body.appendChild(div);
     };
-    //document.addEventListener('click',(e)=>{if(e.currentTarget.querySelector('.container')== null){makeContainer();}});
+
+    document.addEventListener('click', (e) => {
+        if(e.target.tagName == 'BODY')
+            makeContainer();
+    });
     //document.addEventListener('click',makeContainer);
 
     var container = document.querySelector('.container');
     var activeElement;
-        var offsetX = 0;
-        var offsetY = 0;
+    var offsetX = 0;
+    var offsetY = 0;
 
-
-        var mDown = (e)=> {
+    var mDown = (e) => {
+        if(e.target.classList.contains('container')) {
             activeElement = e.target;
             offsetX = e.offsetX;
             offsetY = e.offsetY;
-        };
+            document.addEventListener('mouseup', mUp);
+            document.addEventListener('mousemove', mMove);
+        }
+    };
 
-        var mUp = (e)=> {
-            activeElement = null;
-        };
+    var mUp = (e) => {
+        activeElement = null;
+        document.removeEventListener('mouseup', mUp);
+        document.removeEventListener('mousemove', mMove);
+    };
 
-        var mMove = (e)=> {
-            if (activeElement) {
-                activeElement.style.top = (e.clientY - offsetY) + 'px';
-                activeElement.style.left = (e.clientX - offsetX) + 'px';
-            }
-        };
+    var mMove = (e) => {
+        if (activeElement) {
+            activeElement.style.top = (e.clientY - offsetY) + 'px';
+            activeElement.style.left = (e.clientX - offsetX) + 'px';
+        }
+    };
 
-        container.addEventListener('mousedown', mDown);
-        container.addEventListener('mouseup', mUp);
-        document.addEventListener('mousemove', mMove);
-
-
+    document.addEventListener('mousedown', mDown);
 </script>
+
 </html>
