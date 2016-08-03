@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div>hello world</div>
+<div id="container"></div>
+<script>
+    document.cookie = 'city=moscow';
+    document.cookie = 'city1=spb';
+    document.cookie = 'city2=yalta';
+    function deleteCookie(name) {
+        var cookieDate= new Date();
+        cookieDate.setTime(cookieDate.getTime() - 1);
+        document.cookie = "name" + "=; expires=" + cookieDate.toGMTString();
+
+    }
+    var cookieArr = [];
+    document.cookie.split('; ').forEach(cookie => cookieArr.push(cookie.split('=')));
+
+    for(var key of cookieArr){
+        var button = document.createElement('BUTTON');
+        var nameBut = document.createTextNode('Удалить');
+        button.appendChild(nameBut);
+        var p = document.createElement('p');
+        p.innerHTML = 'Ключ '+key[0]+' значение '+key[1];
+        button.id = key[0];
+        p.appendChild(button);
+        container.appendChild(p);
+
+    }
+      new Promise(function(resolve,reject) {
+            document.addEventListener('click',(e)=>{
+                if(e.target.id != ''){
+                   var cID = e.target.id;
+                    resolve(confirm('вы уверены, что хотите удалить куку?'));
+                }
+                return cID;
+            })
+        }).then((cID)=>{
+                  console.log(cID)
+                  deleteCookie(cID);
+            });
+
+</script>
+</body>
+</html>
