@@ -6,7 +6,7 @@
 </head>
 <body>
 <button id="myButton">push me</button>
-<div class="container"></div>
+<div id="container">Города:</div>
 <script>
     function sendAjax(url){
         return new Promise(
@@ -25,8 +25,15 @@
     }
     myButton.addEventListener('click', function(){
         sendAjax('https://raw.githubusercontent.com/smelukov/citiesTest/master/cities.json').then(function (response){
-            for(var name of response){
-                console.log(name)
+            var cityArr = [];
+            for(var name of JSON.parse(response)){
+                cityArr.push(name.name);
+            }
+            cityArr = cityArr.sort();
+            for(var i = 0; i < cityArr.length; i++ ){
+                var p = document.createElement('p');
+                p.innerHTML = cityArr[i];
+                container.appendChild(p);
             }
         });
     });
