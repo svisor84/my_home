@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<script src="js/handlebars.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+<script src="http://vk.com/js/api/openapi.js" type="text/javascript"></script>
+<script language="JavaScript">
+    new Promise(function(resolve) {
+        if (document.readyState === 'complete') {
+            resolve();
+        } else {
+            window.onload = resolve;
+        }
+    }).then(function() {
+                return new Promise(function(resolve, reject) {
+                    VK.init({
+                        apiId: 5568346
+                    });
+                    VK.Auth.login(response => {
+                        if (response.session) {
+                            resolve(response);
+                        } else {
+                            reject(new Error('Не удалось авторизоваться'));
+                        }
+                    }, 8);
+                });
+            }).then(function() {
+                return new Promise(function(resolve, reject) {
+                    VK.api('users.get', {'name_case': 'gen'},
+                    function(response) {
+                        if (response.error) {
+                            reject(new Error(response.error.error_msg));
+                        } else {
+                            headerInfo.textContent = 'Музыка на странице '
+                            + response.response[0].first_name + ' ' + response.
+                                    response[0].last_name;
+                            resolve();
+                        }
+                    });
+                })
+            }).then(function() {
+                return new Promise(function(resolve, reject) {
+                    VK.api('audio.get', {},
+                            function(response) {
+                                if (response.error) {
+                                    reject(new Error(response.error.error_msg));
+                                } else {
+                                    var source = playItemTemplate.innerHTML;
+                                    var templateFn = Handlebars.compile(source);
+                                    var template = templateFn({list: response.response});
+                                    result.innerHTML = template;
+                                    resolve();
+                                }
+                            });
+                })
+            }).catch(function(e) {
+                alert('Ошибка: ' + e.message);
+            });
+
+</script>
+<div class="container"><h1 id="headerInfo"></h1></div>
+<div class="result"></div>
+<script type="text/x-handlebars-template" id="playerItemTemplate">
+<ul class="list-group" id="audioList">
+    {{#each list}}
+    <li class="list-group-style">
+        <div class="row">
+            <div class="col-xs-10">
+                <span class="gluphicon gluphicon-play" data-role="playback" data-src="{{url}}"></span>
+                <span class="title">{{artist}} - {{title}}</span>
+            </div>
+        </div>
+    </li>
+</ul>
+
+</script>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<html>
+<head>
+
+    <style>
+        body {
+            font-size: 80%;
+            font-family: Arial;
+            width:360px;
+        }
+
+        .accordion h2 {
+            margin: 0;
+            font-size: 1em;
+            padding: 1em;
+            color: white;
+            background-color: grey;
+            border-radius: 13px;
+            border-bottom-style: double;
+        }
+
+        .accordion h2:hover {
+            cursor: pointer;
+            background-color: darkslategrey;
+        }
+
+        .accordion div {
+            margin: 0;
+            padding: 1em 0.4em;
+            background-color: darkslategrey;
+            border-radius: 13px;
+            color: white;
+            border-bottom-style: groove;
+        }
+
+        .inner-list {
+            display: none;
+            transition: opacity 1s;
+            overflow: hidden;
+        }
+        .show {
+            display: block;
+            transition: opacity 1s;
+            padding:15px;
+        }
+    </style>
+</head>
+
+<body>
+<h1>Тестовый аккордеон</h1>
+<div class="accordion">
+        <h2 class="inner-link">основы языка и как нанем говорить правильно</h2>
+        <div class="inner-list">
+            <p>Типы данных, значения и переменные0</p>
+            <p>Выражения и операторы инструкции</p>
+        </div>
+        <h2 class="inner-link">функции</h2>
+        <div class="inner-list">
+            <p>Лексическая структура1</p>
+            <p>Типы данных, значения и переменные1</p>
+            <p>Выражения и операторы инструкции</p>
+        </div>
+        <h2 class="inner-link">Обработка ошибок и отладка</h2>
+        <div class="inner-list">
+            <p>Лексическая структура2</p>
+            <p>Типы данных, значения и переменные2</p>
+            <p>Выражения и операторы инструкции</p>
+        </div>
+        <h2 class="inner-link">Объекты и массивы</h2>
+        <div class="inner-list">
+            <p>Лексическая структура3</p>
+            <p>Типы данных, значения и переменные3</p>
+            <p>Выражения и операторы инструкции</p>
+        </div>
+        <h2 class="inner-link">события</h2>
+        <div class="inner-list">
+            <p>Лексическая структура4</p>
+            <p>Типы данных, значения и переменные4</p>
+            <p>Выражения и операторы инструкции</p>
+        </div>
+</div>
+<script>
+
+
+    var accordion = document.querySelector(".accordion");
+    var cb1 = function(e){
+
+        if(e.target.nextElementSibling.className != 'inner-list show')
+        {
+            for (var el of accordion.children){
+                if(el.className == 'inner-list show'){
+                    el.className = 'inner-list';
+                }
+            }
+            e.target.nextElementSibling.className += ' show';
+        }
+        else
+            e.target.nextElementSibling.className = 'inner-list';
+        };
+    accordion.addEventListener('click', cb1)
+
+
+</script>
+</body>
+</html>
