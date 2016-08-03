@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<button id="myButton">push me</button>
+<div class="container"></div>
+<script>
+    function sendAjax(url){
+        return new Promise(
+                function (resolve, reject){
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('GET',url);
+                    xhr.resposeType = 'json';
+                    xhr.addEventListener('load',function(){
+                        resolve(xhr.responseText);
+                    });
+                    xhr.addEventListener('error', function(){
+                        reject();
+                    });
+                    xhr.send();
+                });
+    }
+    myButton.addEventListener('click', function(){
+        sendAjax('https://raw.githubusercontent.com/smelukov/citiesTest/master/cities.json').then(function (response){
+            for(var name of response){
+                console.log(name)
+            }
+        });
+    });
+</script>
+
+
+</body>
+</html>
