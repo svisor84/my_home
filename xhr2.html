@@ -25,16 +25,12 @@
     }
     myButton.addEventListener('click', function(){
         sendAjax('https://raw.githubusercontent.com/smelukov/citiesTest/master/cities.json').then(function (response){
-            var cityArr = [];
-            for(var name of JSON.parse(response)){
-                cityArr.push(name.name);
-            }
-            cityArr = cityArr.sort();
-            for(var i = 0; i < cityArr.length; i++ ){
+
+            JSON.parse(response).map(obj => obj.name).sort().forEach(item => {
                 var p = document.createElement('p');
-                p.innerHTML = cityArr[i];
+                p.innerHTML = item;
                 container.appendChild(p);
-            }
+            });
         });
     });
 </script>
