@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+
+<body>
+<style>
+    body {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+    }
+    .container {
+        position: absolute;
+    }
+</style>
+<button id="setCookie">запомнить</button>
+<button id="getCookie">вывести из памяти</button>
+
+<!--<div class="container"></div>-->
+</body>
+<script>
+    function getRandomArbitrary(min, max) {
+        return Math.random() * (max - min) + min;
+    }
+
+    function makeContainer() {
+        var r = Math.round(getRandomArbitrary(0, 256));
+        var g = Math.round(getRandomArbitrary(0, 256));
+        var b = Math.round(getRandomArbitrary(0, 256));
+
+        var width = Math.round(getRandomArbitrary(50, 101));
+        var height = Math.round(getRandomArbitrary(50, 101));
+
+        var left = Math.round(getRandomArbitrary(0, (document.documentElement.clientWidth - width)));
+        var top = Math.round(getRandomArbitrary(0, (document.documentElement.clientHeight - height)));
+
+        var borderRadius = Math.round(getRandomArbitrary(0, 34));
+
+        var div = document.createElement('div');
+        div.className = "container";
+        div.style.backgroundColor = 'RGB(' + r + ',' + g + ',' + b + ')';
+        div.style.width = width + 'px';
+        div.style.height = height + 'px';
+        div.style.left = left + 'px';
+        div.style.top = top + 'px';
+        div.style.borderRadius = borderRadius + 'px';
+        document.body.appendChild(div);
+    };
+
+    document.addEventListener('click', (e) => {
+        if(e.target.tagName == 'BODY')
+            makeContainer();
+    });
+    //document.addEventListener('click',makeContainer);
+
+    var container = document.querySelector('.container');
+    var activeElement;
+    var offsetX = 0;
+    var offsetY = 0;
+
+    var mDown = (e) => {
+        if(e.target.classList.contains('container')) {
+            activeElement = e.target;
+            offsetX = e.offsetX;
+            offsetY = e.offsetY;
+            document.addEventListener('mouseup', mUp);
+            document.addEventListener('mousemove', mMove);
+        }
+    };
+
+    var mUp = (e) => {
+        activeElement = null;
+        document.removeEventListener('mouseup', mUp);
+        document.removeEventListener('mousemove', mMove);
+    };
+
+    var mMove = (e) => {
+        if (activeElement) {
+            activeElement.style.top = (e.clientY - offsetY) + 'px';
+            activeElement.style.left = (e.clientX - offsetX) + 'px';
+        }
+    };
+
+    document.addEventListener('mousedown', mDown);
+
+    function b64EncodeUnicode(str) {
+        return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, function(match, p1) {
+            return String.fromCharCode('0x' + p1);
+        }));
+    };
+    function b64DecodeUnicode(str) {
+        return decodeURIComponent(Array.prototype.map.call(atob(str), function(c) {
+            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(''));
+    }
+
+    setCookie.addEventListener('click',()=>{
+        var toMemory = document.querySelectorAll('.container');
+        document.cookie = 'container='+b64EncodeUnicode(toMemory[0].outerHTML)+'; expires=Thu, 01 Jan 2070 00:00:01 GMT;';
+    })
+
+    getCookie.addEventListener('click',()=>{
+
+        var cookieArr = document.cookie.split('; ').map(cookie => cookie.split('='));
+        document.body.innerHTML = (b64DecodeUnicode(cookieArr[0][1]));
+    })
+</script>
+
+</html>
