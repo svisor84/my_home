@@ -5,8 +5,23 @@
     <title></title>
 </head>
 <body>
+<style>
+    #addCookieForm{
+        width: 60px;
+    }
+    #addCookieForm input{
+        padding: 5px;
+        margin: 5px;
+    }
+</style>
 <div>hello world</div>
 <div id="container"></div>
+<form action="#" id="addCookieForm">
+    <input id="name" type="text" placeholder="enter cookie name" value/>
+    <input id="value" type="text" placeholder="enter cookie value" value/>
+    <input id="expDate" type="text" placeholder="enter cookie life days" value/>
+    <button id="add_cookie">Добавить</button>
+</form>
 <script>
     document.cookie = 'city=moscow';
     document.cookie = 'city1=spb';
@@ -17,31 +32,61 @@
         document.querySelector('#'+name).parentNode.remove();
     }
 
-    var cookieArr = document.cookie.split('; ').map(cookie => cookie.split('='));
-    for(var key of cookieArr){
-        var button = document.createElement('BUTTON');
-        var nameBut = document.createTextNode('Удалить');
-        button.appendChild(nameBut);
-        var p = document.createElement('p');
-        p.innerHTML = 'Ключ '+key[0]+' значение '+key[1];
-        button.id = key[0];
-        p.appendChild(button);
-        container.appendChild(p);
 
+
+    function outPutCookie(){
+        var cookieArr = document.cookie.split('; ').map(cookie => cookie.split('='));
+        for(var key of cookieArr){
+            if(!document.getElementById(key[0])){
+                var button = document.createElement('BUTTON');
+                var nameBut = document.createTextNode('Удалить');
+                button.appendChild(nameBut);
+                var p = document.createElement('p');
+                p.innerHTML = 'Ключ '+key[0]+' значение '+key[1];
+                button.id = key[0];
+                p.appendChild(button);
+                container.appendChild(p);
+            }
+        }
     }
-    document.addEventListener('click',(e)=>{
+    outPutCookie();
+    container.addEventListener('click',(e)=>{
         if(e.target.id != ''){
             var cID = e.target.id;
             if(confirm('вы уверены, что хотите удалить куку?')) {
                 deleteCookie(cID);
             }
         }
-    })
+    });
+
+    add_cookie.addEventListener('click',(e)=>{
+        var formValues = document.getElementsByTagName("input");
+        for(var j=0;j<formValues.length; j++){
+            if(!formValues[j].value){
+                alert('заполните все поля');
+                var ok = '';
+            }else if(formValues[j].id == 'expDate' && typeof (Number(formValues[j].value)) != 'number'){
+                alert('введите число');
+                formValues[j].value = '';
+                ok = '';
+            }
+            else{
+                ok = 'Y';
+            };
+        }
+        if(ok){
+            var d = new Date();
+            var exp = d.setTime(d.getTime() + (formValues[2].value * 86400));
+            var expires = exp = d;
+            document.cookie = formValues[0].value+'='+formValues[1].value+'; expires='+expires;
+            for(var i=0;i<formValues.length; i++){
+                formValues[i].value = '';
+            }
+            outPutCookie();
+        }
+    });
 
 </script>
-<form action="#">
-    <input id="field" type="text"/>
-    <button id="add_cookie">Добавить</button>
-</form>
+
 </body>
 </html>
