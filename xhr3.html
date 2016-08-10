@@ -6,41 +6,60 @@
 </head>
 <body>
 <div>введите текст</div>
-<input type="text" id="city_field">
-<div id="container"></div>
+
+<div id="container">
+    <input type="text" id="searchField" name="search" placeholder="Введите город">
+
+</div>
 <script>
+    var url1 = 'https://raw.githubusercontent.com/smelukov/citiesTest/master/cities.json';
+
     function sendAjax(url){
-        return new Promise(
-                function (resolve, reject){
-                    var xhr = new XMLHttpRequest();
-                    xhr.open('GET',url);
-                    xhr.resposeType = 'json';
-                    xhr.addEventListener('load',function(){
-                        resolve(xhr.response);
-                    });
-                    xhr.addEventListener('error', function(){
-                        reject();
-                    });
-                    xhr.send();
-                });
+
+        return new Promise((resolve, reject) => {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', url);
+            xhr.responseType = 'json';
+            xhr.addEventListener('load', () => {
+                resolve(xhr.response);
+            });
+            xhr.addEventListener('error', () => {
+                reject();
+            });
+            xhr.send();
+        });
     }
-    document.addEventListener('DOMContentLoaded', function(){
-        sendAjax('https://raw.githubusercontent.com/smelukov/citiesTest/master/cities.json').then(function (response){
-            var cityArr = [];
-            for(var name of JSON.parse(response)){
-                cityArr.push(name.name);
-            }
-            cityArr = cityArr.sort();
-            for(var i = 0; i < cityArr.length; i++ ){
-                var p = document.createElement('p');
-                p.innerHTML = cityArr[i];
-                container.appendChild(p);
+
+    sendAjax(url1).then((cities) => {
+        var parentDiv = document.getElementById('container'),
+            childDiv  = parentDiv.getElementsByTagName('div');
+
+        searchField.addEventListener('keydown', () => {
+            for ( iter of childDiv ){
+                parentDiv.removeChild(iter);
             }
         });
-    });
-    city_field.addEventListener('change', function(){
 
-    });
+        searchField.addEventListener('keyup', () => {
+            var emptyArr = [],
+                    innerText = (searchField.value).toLowerCase();
+            for( {name} of cities ){
+                var lName = name.toLowerCase();
+                var index = lName.indexOf(innerText,0);
+                if (index > 0){
+                    emptyArr.push(name);
+                }
+            }
+
+            for ( item of emptyArr){
+                var	newDiv = document.createElement('div');
+                newDiv.innerText = item;
+                parentDiv.appendChild(newDiv);
+            }
+
+
+        });
+    }, () => {console.log('Error)')});
 </script>
 </body>
 </html>
