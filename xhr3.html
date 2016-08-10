@@ -34,30 +34,32 @@
         var parentDiv = document.getElementById('container'),
             childDiv  = parentDiv.getElementsByTagName('div');
 
-        searchField.addEventListener('keydown', () => {
-            for ( iter of childDiv ){
-                parentDiv.removeChild(iter);
+        searchField.addEventListener('keydown', (e) => {
+            if(e.keyCode == 8 || e.keyCode == 46 || (e.keyCode >=65 && e.keyCode <=90) || (e.keyCode >= 97 && e.keyCode <= 122))
+            {
+                for ( iter of childDiv ){
+                    parentDiv.removeChild(iter);
+                }
             }
         });
 
-        searchField.addEventListener('keyup', () => {
-            var emptyArr = [],
-                    innerText = (searchField.value).toLowerCase();
-            for( {name} of cities ){
-                var lName = name.toLowerCase();
-                var index = lName.indexOf(innerText,0);
-                if (index > 0){
-                    emptyArr.push(name);
+        searchField.addEventListener('keyup', (e) => {
+            if(e.keyCode == 8 || e.keyCode == 46 || (e.keyCode >=65 && e.keyCode <=90) || (e.keyCode >= 97 && e.keyCode <= 122)) {
+                var emptyArr = [],
+                        innerText = (searchField.value).toLowerCase();
+                for ({name} of cities) {
+                    var lName = name.toLowerCase();
+                    var index = lName.indexOf(innerText, 0);
+                    if (index > 0) {
+                        emptyArr.push(name);
+                    }
+                }
+                for ( item of emptyArr){
+                    var	newDiv = document.createElement('div');
+                    newDiv.innerText = item;
+                    parentDiv.appendChild(newDiv);
                 }
             }
-
-            for ( item of emptyArr){
-                var	newDiv = document.createElement('div');
-                newDiv.innerText = item;
-                parentDiv.appendChild(newDiv);
-            }
-
-
         });
     }, () => {console.log('Error)')});
 </script>
