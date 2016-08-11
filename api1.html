@@ -7,6 +7,7 @@
 </head>
 <body>
 <div id="container">Города:</div>
+<div id="results"></div>
 <script>
     function sendAjax(url){
         return new Promise(
@@ -24,14 +25,19 @@
                 });
     }
     sendAjax('https://raw.githubusercontent.com/smelukov/citiesTest/master/cities.json').then(function (response){
-
-        console.log(JSON.parse(response).map(obj => obj.name).sort())
+        var source = citiesTemplate.innerHTML;
+        var templateFn = Handlebars.compile(source);
+        var template = templateFn({cities: JSON.parse(response).map(obj => obj.name).sort().map(obj=>({name:obj}))});
+        results.innerHTML = template;
     });
-</script>
-<script type="text/x-handlebars-template" id="cities">
 
 </script>
+<script id="citiesTemplate" type="text/x-handlebars-template">
+    {{#each cities}}
 
+    <p>{{name}}</p>
 
+    {{/each}}
+</script>
 </body>
 </html>
