@@ -8,7 +8,8 @@
 <div>введите текст</div>
 
 <div id="container">
-    <input type="text" id="searchField" name="search" placeholder="Введите город">
+       <input type="text" id="searchField" name="search" placeholder="Введите город">
+       <ul id="list"></ul>
 
 </div>
 <script>
@@ -30,38 +31,16 @@
         });
     }
 
-    sendAjax(url1).then((cities) => {
-        var parentDiv = document.querySelector('#container'),
-            childDiv  = parentDiv.getElementsByTagName('div');
+    function render(arr) {
+        list.innerHTML = arr.map(item => `<li>${item}</li>\n`).join('');
+    }
 
-        searchField.addEventListener('keydown', (e) => {
-            if(e.keyCode == 8 || e.keyCode == 46 || (e.keyCode >=65 && e.keyCode <=90) || (e.keyCode >= 97 && e.keyCode <= 122))
-            {
-                for ( iter of childDiv ){
-                    parentDiv.removeChild(iter);
-                }
-            }
-        });
+    sendAjax(url1).then((cities) => {
+        var citiesArr = cities.map(item=>item.name);
 
         searchField.addEventListener('keyup', (e) => {
-            var emptyArr = [],
-                    innerText = (searchField.value).toLowerCase();
-            if(e.keyCode == 8 || e.keyCode == 46 || (e.keyCode >=65 && e.keyCode <=90) || (e.keyCode >= 97 && e.keyCode <= 122)) {
-                if(innerText.length > 0) {
-                    for ({name} of cities) {
-                        var lName = name.toLowerCase();
-                        var index = lName.indexOf(innerText, 0);
-                        if (index == 0) {
-                            emptyArr.push(name);
-                        }
-                    }
-                    for (item of emptyArr) {
-                        var newDiv = document.createElement('div');
-                        newDiv.innerText = item;
-                        parentDiv.appendChild(newDiv);
-                    }
-                }
-            }
+            var arr = citiesArr.filter(item=>item.toLowerCase().includes(searchField.value.toLowerCase()));
+            render(arr);
         });
     }, () => {console.log('Error)')});
 </script>
