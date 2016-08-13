@@ -41,74 +41,38 @@ new Promise(function(resolve) {
                     if (response.error) {
                         reject(new Error(response.error.error_msg));
                     } else {
-
-                        var myFriends = [];
                         var curDate = new Date();
 
-//делаю корректную дату
-                        var trueDate = {
-                            day: curDate.getDate(),
-                            month: curDate.getMonth()+1,
-                            year: curDate.getFullYear()
-                        };
-//вычисляем возраст
-                        function yearBDay(bdate) {
-                            if(!bdate) return "";
-
-                            var [,,year] = bdate.split('.');
-                            if(!year)
-                                return "";
-                            else
-                                return trueDate.year - year;
-                        }
-
-// перебираем пришедшие данные
-                        for(var item = 0; item < response.response.length; item++){
-                            myFriends[myFriends.length] = {
-                                first_name : response.response[item].first_name,
-                                last_name  : response.response[item].last_name,
-                                photo_50  : response.response[item].photo_50,
-                                bdate      : response.response[item].bdate,
-                                year       : yearBDay(response.response[item].bdate)
-                            }
-                        }
-
-                        var noBday = [],
-                            afterBday = [],
-                            beforeBday = [];
+//формируем три массива для разных друзей
+                        var noBday      = [],
+                            afterBday   = [],
+                            beforeBday  = [];
 
 //сортируем людей, у которых указан ДР
-                        var friendWithBday = myFriends.filter(function(elem){
-                            if(elem.bdate !== undefined){
+                        var friendWithBday = response.response.filter(function(elem){
+                            if(elem.bdate !== undefined)
                                 return elem;
-                            }else{
+                            else
                                 noBday[noBday.length] = elem;
-                            }
                         }).sort(function(a,b){
                             var [aDay,aMonth,] = a.bdate.split('.');
                             var [bDay, bMonth,] = b.bdate.split('.');
-
+//обязательно приводим к числу
                              if(+aMonth > +bMonth) return 1;
                              else if(+aMonth < +bMonth) return -1;
 
                              if(+aDay >= +bDay) return 1;
                              else if(+aDay < +bDay) return -1;
-
-                            /*return (+aMonth > +bMonth) ?  1 : ((+aMonth < +bMonth) ? -1 : ''),
-                                (+aDay >= +bDay) ?  1 : ((+aDay < +bDay) ? -1 : '');*/
-
-
-
                         });
 
 // сортируем людей , в зависимости от текущей даты по дате рождения
                         friendWithBday.map(function(elem){
                             var [aDay, aMonth] = elem.bdate.split('.');
-                            if(aMonth > trueDate.month) return afterBday[afterBday.length] = elem;
-                            else if(aMonth < trueDate.month) return beforeBday[beforeBday.length] = elem;
+                            if(aMonth > curDate.getMonth()+1) return afterBday[afterBday.length] = elem;
+                            else if(aMonth < curDate.getMonth()+1) return beforeBday[beforeBday.length] = elem;
 
-                            if(aDay >= trueDate.day) return afterBday[afterBday.length] = elem;
-                            else if(aDay < trueDate.day) return beforeBday[beforeBday.length] = elem;
+                            if(aDay >= curDate.getDate()) return afterBday[afterBday.length] = elem;
+                            else if(aDay < curDate.getDate()) return beforeBday[beforeBday.length] = elem;
 
                         });
                         var source = friendsItemTemplate.innerHTML;
