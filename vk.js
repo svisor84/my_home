@@ -48,7 +48,7 @@ new Promise(function(resolve) {
 //делаю корректную дату
                         var trueDate = {
                             day: curDate.getDate(),
-                            month: curDate.getMonth(),
+                            month: curDate.getMonth()+1,
                             year: curDate.getFullYear()
                         };
 //вычисляем возраст
