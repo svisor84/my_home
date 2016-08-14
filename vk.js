@@ -48,15 +48,27 @@ new Promise(function(resolve) {
                             afterBday   = [],
                             beforeBday  = [];
 
+// вычисляем возраст
+                        function yearBDay(bdate) {
+                            if(!bdate) return "";
+                            var [,,bYear] = bdate.split('.');
+                            if(!bYear) return "";
+                            else return curDate.getFullYear() - bYear;
+                        }
+
 //сортируем людей, у которых указан ДР
                         var friendWithBday = response.response.filter(function(elem){
                             if(elem.bdate !== undefined)
+                            {
+                                elem.age = yearBDay(elem.bdate);
                                 return elem;
+                            }
                             else
                                 noBday[noBday.length] = elem;
                         }).sort(function(a,b){
                             var [aDay,aMonth,] = a.bdate.split('.');
                             var [bDay, bMonth,] = b.bdate.split('.');
+
 //обязательно приводим к числу
                              if(+aMonth > +bMonth) return 1;
                              else if(+aMonth < +bMonth) return -1;
