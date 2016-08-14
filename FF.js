@@ -96,12 +96,14 @@ new Promise(function(resolve) {
                 });
         })
     }).then(function(){
-        // добавляем друга в другой список
+        // добавляем друга в список избарнных
         function addFriend(e){
+            document.getElementById(e.target.parentNode.id).setAttribute('my-attr-moved','moved');// устанавливаем атрибут, когджа элемент переместился
             if(e.target.parentNode.classList.contains('myFriend')){
                 var addingFriend = document.createElement('div'); //создаем див для друга
                 addingFriend.className = "sFriend"; //присваиваем класс
                 addingFriend.setAttribute('my-attr-id',e.target.parentNode.id); //создаем атрибут для дальнейшего обращения к элементу
+                addingFriend.setAttribute('my-attr-arrival','arrival');
                 addingFriend.innerHTML = e.target.parentNode.innerHTML; // забираем HTML родителя
                 selectedFriends.appendChild(addingFriend); // добавляем блок в выбранные друзья
                 e.target.parentNode.style.display = 'none'; // ставим текущему блоку display=none
@@ -114,13 +116,50 @@ new Promise(function(resolve) {
         function removeFromSelectedFriends(e){
             if(e.target.parentNode.classList.contains('sFriend')){
                 var toVisual = e.target.parentNode.getAttribute('my-attr-id'); // берем атрибут для показа скрытого элемента
-                document.getElementById(toVisual).style.display = ''; // открываем скрытый элемент в друзьях
-                e.target.parentNode.style.display = 'none'; // закрываем этот же элемент в Избранных
+                var friendBack = document.getElementById(toVisual); // получаем родителя
+                friendBack.style.display = ''; // открываем скрытый элемент в друзьях
+                friendBack.setAttribute('my-attr-moved', ''); // снимаем атрибут moved, когда элемент вернулся
+// удаляем узел из избранного
+                var bigParent = e.target.parentNode.parentNode;
+                bigParent.removeChild(e.target.parentNode)
             }
         }
         var removeF = document.getElementById('selected');// определяемся, что слушаем
         removeF.addEventListener('click', removeFromSelectedFriends); // слушаем события в блоке избранных друзей
 
+        //делаем функцию поиска среди друзей
+        function friendSearch(){
+            var friendsNames = document.getElementsByClassName('FIO') //забираем все имена
+            for(var friend of friendsNames){
+                if(friend.parentNode.parentNode.classList.value == 'myFriend'){
+                    if(!friend.innerHTML.toLowerCase().includes(searchField.value.toLowerCase())){ // сравниваем имя с тем, что ввели в поле поиска
+                        friend.parentNode.parentNode.style.display = 'none'; //прячем все, что не подходит под поиск
+                    }else{
+                        var moved = document.getElementById(friend.parentNode.parentNode.id);
+                        if(moved.getAttribute('my-attr-moved') != 'moved') // проверяем элемент, не был ли он перемещен ранее
+                            friend.parentNode.parentNode.style.display = ''; // выводим все, что подходит под поиск
+                    }
+                }
+            }
+        }
+        searchField.addEventListener('keyup',friendSearch);
+
+        //делаем функцию поиска среди избранных
+        function selectedFriendSearch(){
+            var selectedFriendsNames = document.getElementsByClassName('FIO') //забираем все имена
+            for(var friend of selectedFriendsNames){
+                if(friend.parentNode.parentNode.classList.value == 'sFriend'){
+                    if(!friend.innerHTML.toLowerCase().includes(searchFieldSelected.value.toLowerCase())){ // сравниваем имя с тем, что ввели в поле поиска
+                        friend.parentNode.parentNode.style.display = 'none'; //прячем все, что не подходит под поиск
+                    }else{
+                        var arrival = document.getElementById(friend.parentNode.parentNode.getAttribute('my-attr-id'));
+                        if(arrival.getAttribute('my-attr-moved') == 'moved') // проверяем элемент, не был ли он перемещен ранее
+                            friend.parentNode.parentNode.style.display = ''; // выводим все, что подходит под поиск
+                    }
+                }
+            }
+        }
+        searchFieldSelected.addEventListener('keyup',selectedFriendSearch)
 
 }).catch(function(e) {
         alert('Ошибка: ' + e.message);
