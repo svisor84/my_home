@@ -9,7 +9,7 @@
 
 <div id="container">
        <input type="text" id="searchField" name="search" placeholder="Введите город">
-       <ul id="list"></ul>
+       <div id="list"></div>
 
 </div>
 <script>
@@ -32,13 +32,13 @@
     }
 
     function render(arr) {
-        list.innerHTML = arr.map(item => `<li>${item}</li>\n`).join('');
+        list.innerHTML = arr.map(item => `<p>${item}</p>\n`).join('');
     }
 
     sendAjax(url1).then((cities) => {
         var citiesArr = cities.map(item=>item.name);
 
-        searchField.addEventListener('keyup', (e) => {
+        searchField.addEventListener('keyup', () => {
             var arr = citiesArr.filter(item=>item.toLowerCase().includes(searchField.value.toLowerCase()));
             render(arr);
         });
