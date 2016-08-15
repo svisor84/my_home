@@ -98,8 +98,9 @@ new Promise(function(resolve) {
     }).then(function(){
         // добавляем друга в список избарнных
         function addFriend(e){
-            document.getElementById(e.target.parentNode.id).setAttribute('my-attr-moved','moved');// устанавливаем атрибут, когджа элемент переместился
+
             if(e.target.parentNode.classList.contains('myFriend')){
+                document.getElementById(e.target.parentNode.id).setAttribute('my-attr-moved','moved');// устанавливаем атрибут, когджа элемент переместился
                 var addingFriend = document.createElement('div'); //создаем див для друга
                 addingFriend.className = "sFriend"; //присваиваем класс
                 addingFriend.setAttribute('my-attr-id',e.target.parentNode.id); //создаем атрибут для дальнейшего обращения к элементу
@@ -160,6 +161,51 @@ new Promise(function(resolve) {
             }
         }
         searchFieldSelected.addEventListener('keyup',selectedFriendSearch)
+//Делаем сохранение с LocalStorage
+
+var saveBut = document.getElementById('saveButton');
+        saveBut.addEventListener('click',function(){
+            localStorage.removeItem('vkFriends');
+            localStorage.removeItem('selected');
+           var vkFriends = window.btoa(document.getElementById('VKFriends'));
+           var selected =  window.btoa(document.getElementById('selected'));
+            localStorage.setItem('vkFriends', vkFriends);
+            localStorage.setItem('selected', selected);
+        })
+
+
+//TODO сделать сохранение в локал сторадж (до этого шифрум все в base64)
+
+        // Делаем D&D
+        var myFriend = document.querySelector('.sFriend');
+        var activeElement;
+        var offsetX = 0;
+        var offsetY = 0;
+
+        var mDown = (e) => {
+            if(e.target.classList.contains('sFriend')) {
+                activeElement = e.target;
+                offsetX = e.offsetX;
+                offsetY = e.offsetY;
+                document.addEventListener('mouseup', mUp);
+                document.addEventListener('mousemove', mMove);
+            }
+        };
+
+        var mUp = (e) => {
+            activeElement = null;
+            document.removeEventListener('mouseup', mUp);
+            document.removeEventListener('mousemove', mMove);
+        };
+
+        var mMove = (e) => {
+            if (activeElement) {
+                activeElement.style.top = (e.clientY - offsetY) + 'px';
+                activeElement.style.left = (e.clientX - offsetX) + 'px';
+            }
+        };
+
+        document.addEventListener('mousedown', mDown);
 
 }).catch(function(e) {
         alert('Ошибка: ' + e.message);
