@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //решение на ES5
 
-function Calculator(firstNumber) {
+/*function Calculator(firstNumber) {
     this.initial = firstNumber;
 }
 
@@ -53,21 +53,19 @@ function SqlCalc(value){
 SqlCalc.prototype = Object.create(Calculator.prototype);
 
 SqlCalc.prototype.sum = function () {
-  // var arg = [].slice.call(arguments);
-    // не пойму как передать числа на метод родителя
     var res = Calculator.prototype.sum.call(this);
     return res*res
 };
 SqlCalc.prototype.dif = function (){
-   var res = Calculator.prototype.dif.call(this);
+   var res = Calculator.prototype.dif.apply(this,arguments);
     return res * res;
 };
 SqlCalc.prototype.div = function (){
-    var res = Calculator.prototype.div.call(this);
+    var res = Calculator.prototype.div.apply(this,arguments);
     return res * res;
 };
 SqlCalc.prototype.mul = function (){
-    var res = Calculator.prototype.mul.call(this);
+    var res = Calculator.prototype.mul.apply(this,arguments);
     return res * res;
 };
 
@@ -75,12 +73,12 @@ var myCalculator = new SqlCalc(100);
 console.log(myCalculator.sum(1, 2, 3)); //вернет 11 236 (100 + 1 + 2 + 3 = 106 * 106)
 console.log(myCalculator.dif(10, 20)); //вернет 4 900
 console.log(myCalculator.div(2, 2)); //вернет 625
-console.log(myCalculator.mul(2, 2)); //вернет 160 000
+console.log(myCalculator.mul(2, 2)); //вернет 160 000*/
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Решение ES6
 
-/*'use strict';
+'use strict';
 
 class Calculator {
     constructor(initial) {
@@ -133,29 +131,29 @@ class SqlCalc extends Calculator{
         super(initial);
         this.initial = initial;
     }
-sum(){
-        var res = super.sum();
+    sum(){
+        var res = super.sum(...arguments);
        return res * res;
     }
     dif(){
-        var res = super.dif();
+        var res = super.dif(...arguments);
         return res * res;
     }
     div(){
-        var res = super.div();
+        var res = super.div(...arguments);
         return res * res;
     }
     mul(){
-        var res = super.mul();
+        var res = super.mul(...arguments);
         return res * res;
     }
 
-}*/
+}
 
 
 
-//var myCalculator = new SqlCalc(100);
-//console.log(myCalculator.sum(1, 2, 3)); //вернет 11 236 (100 + 1 + 2 + 3 = 106 * 106)
-//console.log(myCalculator.dif(10, 20)); //вернет 4 900
-//console.log(myCalculator.div(2, 2)); //вернет 625
-//console.log(myCalculator.mul(2, 2)); //вернет 160 000
+var myCalculator = new SqlCalc(100);
+console.log(myCalculator.sum(1, 2, 3)); //вернет 11 236 (100 + 1 + 2 + 3 = 106 * 106)
+console.log(myCalculator.dif(10, 20)); //вернет 4 900
+console.log(myCalculator.div(2, 2)); //вернет 625
+console.log(myCalculator.mul(2, 2)); //вернет 160 000
