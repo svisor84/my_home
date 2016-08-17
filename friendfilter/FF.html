@@ -74,7 +74,7 @@
     </div>
     <h3>Здесь будут выбранные друзья</h3>
 
-    <div class="list-group">
+    <div class="list-group" id="selectedToSave">
         <div class="list-group-style">
             <div class="row">
                 <div class="col-xs-12" id="selectedFriends"></div>
@@ -83,6 +83,7 @@
     </div>
 </div>
 <script type="text/x-handlebars-template" id="friendsItemTemplate">
+    {{#if list}}
     <div class="list-group" id="toSave">
         {{#each list}}
         <div class="list-group-style dnd" >
@@ -98,8 +99,10 @@
         </div>
         {{/each}}
     </div>
+    {{/if}}
 </script>
 </body>
 <script type="text/javascript" src="ff1.js"></script>
 <script type="text/javascript" src="ff2.js"></script>
+<script type="text/javascript" src="ff3.js"></script>
 </html>
