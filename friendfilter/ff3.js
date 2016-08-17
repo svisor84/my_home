@@ -35,8 +35,12 @@ var mUp = (e) => {
 };
 
 var mMove = (e) => {
-
+console.log(e)
     if (activeElement) {
+
+        activeElement.style.position = 'absolute';
+
+        activeElement.style.width = '350px';
 
         activeElement.style.top = (e.clientY - offsetY) + 'px';
 
