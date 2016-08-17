@@ -1,6 +1,3 @@
-var removeF = document.getElementById('selected');// определяемся, что слушаем
-removeF.addEventListener('click', removeFromSelectedFriends); // слушаем события в блоке избранных друзей
-
 //делаем функцию поиска среди друзей
 function friendSearch(){
 
@@ -25,6 +22,7 @@ function friendSearch(){
         }
     }
 }
+
 searchField.addEventListener('keyup',friendSearch);
 
 //делаем функцию поиска среди избранных
@@ -51,6 +49,7 @@ function selectedFriendSearch(){
         }
     }
 }
+
 searchFieldSelected.addEventListener('keyup',selectedFriendSearch);
 
 //Делаем сохранение с LocalStorage
@@ -59,67 +58,16 @@ saveButton.addEventListener('click',function () {
 
     localStorage.removeItem('toSave');
 
-    localStorage.removeItem('selected');
-
-    //var vkFriends = b64EncodeUnicode(document.getElementById('friendsResult'));
+    localStorage.removeItem('selectedToSave');
 
     var friendsResult = document.getElementById('toSave');
 
-    var selected = document.getElementById('selected');
+    var selected = document.getElementById('selectedToSave');
 
     localStorage.setItem('toSave', friendsResult.outerHTML);
 
-    if(selected.length >0)
+    if(selected)
     {
-        localStorage.setItem('selected', selected.outerHTML);
+        localStorage.setItem('selectedToSave', selected.outerHTML);
     }
 });
-
-
-// Делаем D&D
-
-var myFriend = document.querySelector('.friendsResult');
-
-var activeElement;
-
-var offsetX = 0;
-
-var offsetY = 0;
-
-
-var mDown = (e) => {
-
-    if(e.target.classList.contains('myFriend')) {
-
-        activeElement = e.target;
-
-        offsetX = e.offsetX;
-
-        offsetY = e.offsetY;
-
-        document.addEventListener('mouseup', mUp);
-
-        document.addEventListener('mousemove', mMove);
-    }
-};
-
-var mUp = (e) => {
-
-    activeElement = null;
-
-    document.removeEventListener('mouseup', mUp);
-
-    document.removeEventListener('mousemove', mMove);
-};
-
-var mMove = (e) => {
-
-    if (activeElement) {
-
-        activeElement.style.top = (e.clientY - offsetY) + 'px';
-
-        activeElement.style.left = (e.clientX - offsetX) + 'px';
-    }
-};
-
-document.addEventListener('mousedown', mDown);
