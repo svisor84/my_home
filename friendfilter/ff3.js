@@ -35,7 +35,7 @@ var mUp = (e) => {
 };
 
 var mMove = (e) => {
-console.log(e)
+
     if (activeElement) {
 
         activeElement.style.position = 'absolute';
