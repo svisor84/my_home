@@ -50,9 +50,16 @@
        width: 38px;
        height: 37px;
    }
+    .FIO{
+        float: left;
+    }
+    .saveButton{
+        margin-left: 40%;
+    }
 </style>
 <div class="container">
     <h1 id="headerInfo"></h1>
+    <input type="button" value="Сохранить" id="saveButton" class="saveButton">
 </div>
 <div id="VKFriends">
     <div class="friendSearchField">
@@ -70,22 +77,20 @@
     <div class="list-group">
         <div class="list-group-style">
             <div class="row">
-                <div class="col-xs-12" id="selectedFriends">
-
-                </div>
+                <div class="col-xs-12" id="selectedFriends"></div>
             </div>
         </div>
     </div>
 </div>
 <script type="text/x-handlebars-template" id="friendsItemTemplate">
-    <div class="list-group">
+    <div class="list-group" id="toSave">
         {{#each list}}
-        <div class="list-group-style">
+        <div class="list-group-style dnd" >
             <div class="row">
                 <div class="col-xs-12">
                     <div class="myFriend"  id="{{uid}}">
                             <img src="{{photo_50}}"/>
-                            <div class="f-data">{{first_name}} {{last_name}} - возраст: {{age}}<p>Дата рождения: {{bdate}}</p></div>
+                            <div class="f-data"><div class="FIO">{{first_name}} {{last_name}}</div> - возраст: {{age}}<p>Дата рождения: {{bdate}}</p></div>
                             <div class="addF" id="addF"></div>
                     </div>
                 </div>
