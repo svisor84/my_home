@@ -11,15 +11,13 @@
     document.cookie = 'city=moscow';
     document.cookie = 'city1=spb';
     document.cookie = 'city2=yalta';
+
     function deleteCookie(name) {
-        var cookieDate= new Date();
-        cookieDate.setTime(cookieDate.getTime() - 1);
-        document.cookie = "name" + "=; expires=" + cookieDate.toGMTString();
-
+        document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+        document.querySelector('#'+name).parentNode.remove();
     }
-    var cookieArr = [];
-    document.cookie.split('; ').forEach(cookie => cookieArr.push(cookie.split('=')));
 
+    var cookieArr = document.cookie.split('; ').map(cookie => cookie.split('='));
     for(var key of cookieArr){
         var button = document.createElement('BUTTON');
         var nameBut = document.createTextNode('Удалить');
@@ -31,18 +29,14 @@
         container.appendChild(p);
 
     }
-      new Promise(function(resolve,reject) {
-            document.addEventListener('click',(e)=>{
-                if(e.target.id != ''){
-                   var cID = e.target.id;
-                    resolve(confirm('вы уверены, что хотите удалить куку?'));
-                }
-                return cID;
-            })
-        }).then((cID)=>{
-                  console.log(cID)
-                  deleteCookie(cID);
-            });
+    document.addEventListener('click',(e)=>{
+        if(e.target.id != ''){
+            var cID = e.target.id;
+            if(confirm('вы уверены, что хотите удалить куку?')) {
+                deleteCookie(cID);
+            }
+        }
+    })
 
 </script>
 </body>
