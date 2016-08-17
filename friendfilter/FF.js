@@ -88,9 +88,29 @@ new Promise(function(resolve) {
 
                         });
                         var source = friendsItemTemplate.innerHTML;
+
                         var templateFn = Handlebars.compile(source);
-                        var template = templateFn({list: [].concat(afterBday,beforeBday, noBday)});
-                        friendsResult.innerHTML = template;
+
+                        //проверяем на наличие чего-либо в локал сторадж и, если что выводим, а потом очищаем
+                        if(localStorage.getItem('toSave')){
+
+                            document.getElementById('friendsResult').innerHTML = localStorage.getItem('toSave');
+
+                            localStorage.removeItem('toSave');
+
+                            if(localStorage.getItem('selectedToSave')){
+
+                                document.getElementById('selectedToSave').innerHTML = localStorage.getItem('selectedToSave');
+
+                                localStorage.removeItem('selectedToSave');
+                            }
+
+                        }else{
+
+                            var template = templateFn({list: [].concat(afterBday,beforeBday, noBday)});
+
+                            friendsResult.innerHTML = template;
+                        }
                         resolve();
                     }
                 });

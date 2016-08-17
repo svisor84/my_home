@@ -43,3 +43,7 @@ function removeFromSelectedFriends(e){
         bigParent.removeChild(e.target.parentNode)
     }
 }
+
+// определяемся, что слушаем избранных друзей
+var removeF = document.getElementById('selected');
+removeF.addEventListener('click', removeFromSelectedFriends);
