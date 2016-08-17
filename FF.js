@@ -160,30 +160,35 @@ new Promise(function(resolve) {
                 }
             }
         }
-        searchFieldSelected.addEventListener('keyup',selectedFriendSearch)
+        searchFieldSelected.addEventListener('keyup',selectedFriendSearch);
+
 //Делаем сохранение с LocalStorage
 
-var saveBut = document.getElementById('saveButton');
-        saveBut.addEventListener('click',function(){
-            localStorage.removeItem('vkFriends');
+        saveButton.addEventListener('click',function () {
+            localStorage.removeItem('toSave');
             localStorage.removeItem('selected');
-           var vkFriends = window.btoa(document.getElementById('VKFriends'));
-           var selected =  window.btoa(document.getElementById('selected'));
-            localStorage.setItem('vkFriends', vkFriends);
-            localStorage.setItem('selected', selected);
-        })
+            //var vkFriends = b64EncodeUnicode(document.getElementById('friendsResult'));
+            var friendsResult = document.getElementById('toSave');
+            var selected = document.getElementById('selected');
+            localStorage.setItem('toSave', friendsResult.outerHTML);
+            if(selected.length >0)
+            {
+                localStorage.setItem('selected', selected.outerHTML);
+            }
+        });
 
 
-//TODO сделать сохранение в локал сторадж (до этого шифрум все в base64)
+
+//TODO сделать сохранение в локал сторадж (до этого шифруем все в base64)
 
         // Делаем D&D
-        var myFriend = document.querySelector('.sFriend');
+        var myFriend = document.querySelector('.friendsResult');
         var activeElement;
         var offsetX = 0;
         var offsetY = 0;
 
         var mDown = (e) => {
-            if(e.target.classList.contains('sFriend')) {
+            if(e.target.classList.contains('myFriend')) {
                 activeElement = e.target;
                 offsetX = e.offsetX;
                 offsetY = e.offsetY;
