@@ -16,6 +16,8 @@ function addFriend(e){
 
         selectedFriends.appendChild(addingFriend); // добавляем блок в выбранные друзья
 
+        e.target.parentNode.removeAttribute('style');// удаляем стили после перемещения
+
         e.target.parentNode.style.display = 'none'; // ставим текущему блоку display=none
     }
 }
