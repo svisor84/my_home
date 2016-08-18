@@ -13,11 +13,15 @@ var mDown = (e) => {
 
     if(e.target.classList.contains('myFriend')) {
 
-        activeElement = e.target;
+        activeElement = e.target.closest('.myFriend');
+
+        if (!activeElement) return; // не нашли, клик вне myFriend-объекта
 
         offsetX = e.offsetX;
 
         offsetY = e.offsetY;
+
+        activeElement.style.zIndex = 99999;
 
         document.addEventListener('mouseup', mUp);
 
@@ -26,6 +30,7 @@ var mDown = (e) => {
 };
 
 var mUp = (e) => {
+    var elem = document.elementFromPoint(e.clientX, e.clientY);// определяем область по координатам
 
     activeElement = null;
 
