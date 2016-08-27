@@ -12,7 +12,7 @@ var offsetY = 0;
 var mDown = (e) => {
 
     if(e.target.classList.contains('myFriend')) {
-console.log(e);
+
         activeElement = e.target.closest('.myFriend');
 
         if (!activeElement) return; // не нашли, клик вне myFriend-объекта
@@ -34,9 +34,15 @@ console.log(e);
 };
 
 var mUp = (e) => {
+
+    activeElement.hidden = true;
+
     var elem = document.elementFromPoint(e.clientX, e.clientY);// определяем область по координатам
-//console.log(elem.querySelector('#selectedFriends'));
-  //  console.log(e.target);
+
+    activeElement.hidden = false;
+
+
+
     activeElement = null;
 
     document.removeEventListener('mouseup', mUp);
