@@ -12,7 +12,7 @@ var offsetY = 0;
 var mDown = (e) => {
 
     if(e.target.classList.contains('myFriend')) {
-
+console.log(e);
         activeElement = e.target.closest('.myFriend');
 
         if (!activeElement) return; // не нашли, клик вне myFriend-объекта
@@ -23,6 +23,10 @@ var mDown = (e) => {
 
         activeElement.style.zIndex = 99999;
 
+        activeElement.style.position = 'absolute';
+
+        activeElement.style.width = '350px';
+
         document.addEventListener('mouseup', mUp);
 
         document.addEventListener('mousemove', mMove);
@@ -31,7 +35,8 @@ var mDown = (e) => {
 
 var mUp = (e) => {
     var elem = document.elementFromPoint(e.clientX, e.clientY);// определяем область по координатам
-
+//console.log(elem.querySelector('#selectedFriends'));
+  //  console.log(e.target);
     activeElement = null;
 
     document.removeEventListener('mouseup', mUp);
@@ -43,13 +48,9 @@ var mMove = (e) => {
 
     if (activeElement) {
 
-        activeElement.style.position = 'absolute';
+        activeElement.style.top = (e.pageY - offsetY - 126) + 'px';
 
-        activeElement.style.width = '350px';
-
-        activeElement.style.top = (e.clientY - offsetY) + 'px';
-
-        activeElement.style.left = (e.clientX - offsetX) + 'px';
+        activeElement.style.left = (e.pageX - offsetX + 13) + 'px';
     }
 };
 
