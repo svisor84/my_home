@@ -12,7 +12,7 @@ var offsetY = 0;
 var mDown = (e) => {
 
     if(e.target.classList.contains('myFriend')) {
-
+console.log(e);
         activeElement = e.target.closest('.myFriend');
 
         if (!activeElement) return; // не нашли, клик вне myFriend-объекта
@@ -41,7 +41,8 @@ var mUp = (e) => {
 
     activeElement.hidden = false;
 
-
+    if(elem.id == 'selected')
+        dropFriend(activeElement); //добавляем друга перетаскиванием
 
     activeElement = null;
 
@@ -54,9 +55,9 @@ var mMove = (e) => {
 
     if (activeElement) {
 
-        activeElement.style.top = (e.pageY - offsetY - 126) + 'px';
+        activeElement.style.top = (e.pageY - offsetY) + 'px';
 
-        activeElement.style.left = (e.pageX - offsetX + 13) + 'px';
+        activeElement.style.left = (e.pageX - offsetX) + 'px';
     }
 };
 

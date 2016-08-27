@@ -22,6 +22,27 @@ function addFriend(e){
     }
 }
 
+function dropFriend(e){
+
+      document.getElementById(e.id).setAttribute('data-my-attr-moved','moved');// устанавливаем атрибут, когджа элемент переместился
+
+        var addingFriend = document.createElement('div'); //создаем див для друга
+
+        addingFriend.className = "sFriend"; //присваиваем класс
+
+        addingFriend.setAttribute('data-my-attr-id',e.id); //создаем атрибут для дальнейшего обращения к элементу
+
+        addingFriend.setAttribute('data-my-attr-arrival','arrival');
+
+        addingFriend.innerHTML = e.querySelector('.addF').parentNode.innerHTML;// забираем HTML родителя
+
+        selectedFriends.appendChild(addingFriend); // добавляем блок в выбранные друзья
+
+        e.style = '';// удаляем стили после перемещения
+
+        e.style.display = 'none'; // ставим текущему блоку display=none
+}
+
 var friendsResultField = document.getElementById('friendsResult');
 friendsResultField.addEventListener('click', addFriend);
 
