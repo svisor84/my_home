@@ -6,20 +6,22 @@ var activeElement;
 
 var offsetX = 0;
 
-var offsetY = 0;
+var clientY = 0;
 
 
 var mDown = (e) => {
 
     if(e.target.classList.contains('myFriend')) {
-console.log(e);
+
         activeElement = e.target.closest('.myFriend');
 
         if (!activeElement) return; // не нашли, клик вне myFriend-объекта
 
+        //document.body.appendChild(activeElement);
+
         offsetX = e.offsetX;
 
-        offsetY = e.offsetY;
+        clientY = e.clientY;
 
         activeElement.style.zIndex = 99999;
 
@@ -43,6 +45,8 @@ var mUp = (e) => {
 
     if(elem.id == 'selected')
         dropFriend(activeElement); //добавляем друга перетаскиванием
+    else
+        activeElement.style = '';
 
     activeElement = null;
 
@@ -54,10 +58,9 @@ var mUp = (e) => {
 var mMove = (e) => {
 
     if (activeElement) {
+        activeElement.style.top = (e.clientY - clientY) + 'px';
 
-        activeElement.style.top = (e.pageY - offsetY) + 'px';
-
-        activeElement.style.left = (e.pageX - offsetX) + 'px';
+        activeElement.style.left = (e.clientX - offsetX) + 'px';
     }
 };
 
