@@ -99,14 +99,13 @@
         {{#each list}}
         <div class="photos text-center">
             <img src="{{photo_130}}" class="img-circle">
-            {{#each likes}}
-                {{#if count}}
-                    <div> Мои лайки: {{count}}</div>
-                {{/if}}
-            {{/each}}
-            {{#each reposts}}
-                <div> Мои репосты: {{{count}}}</div>
-            {{/each}}
+
+            <div> Мои лайки: {{likes.count}}</div>
+
+            <div> Мои репосты: {{{reposts.count}}}</div>
+
+            <div> Мои комментарии: {{{comments.count}}}</div>
+
         </div>
         {{/each}}
     </div>
