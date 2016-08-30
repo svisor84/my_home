@@ -18,5 +18,11 @@ var Controller = {
         return Model.getGroups().then(function(groups) {
             results.innerHTML = View.render('groups', {list: groups.items});
         });
+    },
+    photosRoute: function() {
+        return Model.getPhotos().then(function(photos) {
+            console.log (photos);
+            results.innerHTML = View.render('photos', {list: photos.items});
+        });
     }
 };
