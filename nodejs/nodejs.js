@@ -12,6 +12,7 @@ var scan = function(startDir){
     dir = startDir + '/' +dir;
         var stat = fs.statSync(dir);
         if(!stat.isFile()){
+            console.log(dir,(stat.size/1024).toFixed(5) + ' kb');
             scan(dir);
         }else{
             console.log(dir,(stat.size/1024).toFixed(3) + ' kb');
