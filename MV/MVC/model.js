@@ -41,6 +41,17 @@ var Model = {
         return this.callApi('groups.get', {extended: "1", fields:'photo_100', v:5.3});
     },
     getPhotos: function() {
-        return this.callApi('photos.get',{extended: "1", album_id:"profile",v:5.3});
+        return this.callApi("execute",'photo.getAlbums', { v:5.53}).then((albums)=>{
+           var photos = [];
+            console.log (albums);
+            albums.item.forEach((e)=>{
+                this.callApi('photos.get',{extended: "1", album_id:e.id,v:5.3}).then((photo)=>{
+                    photo.items.forEach((e)=>{
+                        photos.push(e);
+                    })
+                })
+            });
+            return photos;
+        });
     }
 };
