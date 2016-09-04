@@ -41,7 +41,7 @@ var Model = {
         return this.callApi('groups.get', {extended: "1", fields:'photo_100', v:5.3});
     },
     getPhotos: function() {
-        return this.callApi("execute",'photo.getAlbums', { v:5.53}).then((albums)=>{
+        return this.callApi("execute",'photos.getAlbums', { v:5.53}).then((albums)=>{
            var photos = [];
             console.log (albums);
             albums.item.forEach((e)=>{
