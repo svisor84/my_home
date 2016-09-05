@@ -10,8 +10,7 @@ var clientY = 0;
 
 
 var mDown = (e) => {
-
-    if(e.target.classList.contains('myFriend')) {
+    if(!e.target.classList.contains('addF') && (e.target.classList.contains('myFriend') || e.target.parentNode.classList.contains('myFriend') || e.target.parentNode.parentNode.classList.contains('myFriend'))) {
 
         activeElement = e.target.closest('.myFriend');
 
@@ -19,7 +18,7 @@ var mDown = (e) => {
 
         //document.body.appendChild(activeElement);
 
-        offsetX = e.offsetX;
+        clientX = e.clientX;
 
         clientY = e.clientY;
 
@@ -27,7 +26,7 @@ var mDown = (e) => {
 
         activeElement.style.position = 'absolute';
 
-        activeElement.style.width = '350px';
+        activeElement.style.width = '420px';
 
         document.addEventListener('mouseup', mUp);
 
@@ -42,8 +41,8 @@ var mUp = (e) => {
     var elem = document.elementFromPoint(e.clientX, e.clientY);// определяем область по координатам
 
     activeElement.hidden = false;
-
-    if(elem.id == 'selected')
+console.log(elem.parentNode)
+    if(elem.id == 'selected' || elem.parentNode.id == 'selectedFriends')
         dropFriend(activeElement); //добавляем друга перетаскиванием
     else
         activeElement.style = '';
@@ -60,7 +59,7 @@ var mMove = (e) => {
     if (activeElement) {
         activeElement.style.top = (e.clientY - clientY) + 'px';
 
-        activeElement.style.left = (e.clientX - offsetX) + 'px';
+        activeElement.style.left = (e.clientX - clientX+12) + 'px';
     }
 };
 
