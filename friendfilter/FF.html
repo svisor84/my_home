@@ -6,104 +6,59 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
     <script src="http://vk.com/js/api/openapi.js" type="text/javascript"></script>
     <script src="ff.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css" >
     <title>ДругоФильтр</title>
 </head>
 <body>
-<style>
-#friendsResult{
-    float:left;
-}
-    #selected{
-       float: right;
-        width: 500px;
-        height: 500px;
-        outline: 2px solid #000;
-    }
-    .myFriend{
-        outline: 1px solid #555;
-        margin: 5px;
-        background-color: yellowgreen;
-    }
-    .f-data{
-        float:right;
-        padding-right: 69px;
-    }
-    #friendsResult{
-        background-color: turquoise;
-    }
-    .sFriend{
-        outline: 1px solid #555;
-        margin: 5px;
-        background-color: yellowgreen;
-         }
-   div .myFriend .addF{
-        position: absolute;
-        left: 393px;
-        top: 13px;
-       background-image: url(Plus.png);
-       height: 33px;
-       width: 33px;
-    }
-   div .sFriend .addF{
-       float: left;
-       margin: 10px 15px 0 0;
-       background-image: url(minus.png);
-       width: 38px;
-       height: 37px;
-   }
-    .FIO{
-        float: left;
-    }
-    .saveButton{
-        margin-left: 40%;
-    }
-</style>
 <div class="container">
     <h1 id="headerInfo"></h1>
-    <input type="button" value="Сохранить" id="saveButton" class="saveButton">
 </div>
-<div id="friends">
-<div id="VKFriends">
-    <div class="friendSearchField">
-        <input type="text" id="searchField" name="search" placeholder="Введите имя друга">
-    </div>
-<div id="friendsResult"></div>
-</div>
-
-<div id="selected">
-    <div class="friendSearchField">
-        <input type="text" id="searchFieldSelected" name="search" placeholder="Введите имя друга">
-    </div>
-    <h3>Здесь будут выбранные друзья</h3>
-
-    <div class="list-group" id="selectedToSave">
-        <div class="list-group-style">
-            <div class="row">
-                <div class="col-xs-12 col-md-12" id="selectedFriends"></div>
-            </div>
+<div id="friends" class="friends">
+    <div class="filterName"><span>Выберите друзей</span></div>
+    <div id="search" class="search">
+        <div class="friendSearchField">
+            <input type="text" id="searchField" name="search" class="sFields" placeholder="Введите имя друга">
+        </div>
+        <div class="friendSearchField">
+            <input type="text" id="searchFieldSelected" name="search"  class="sFields" placeholder="Введите имя друга">
         </div>
     </div>
-</div>
-<script type="text/x-handlebars-template" id="friendsItemTemplate">
-    {{#if list}}
-    <div class="list-group" id="toSave">
-        {{#each list}}
-        <div class="list-group-style dnd" >
-            <div class="row">
-                <div class="col-xs-12 col-md-12">
-                    <div class="myFriend"  id="{{uid}}">
-                            <img src="{{photo_50}}"/>
-                            <div class="f-data"><div class="FIO">{{first_name}} {{last_name}}</div> - возраст: {{age}}<p>Дата рождения: {{bdate}}</p></div>
-                            <div class="addF"></div>
-                    </div>
+    <div id="VKFriends" class="VKFriends">
+        <h4>Ваши друзья</h4>
+        <div id="friendsResult" class="friendsResult"></div>
+    </div>
+
+    <div id="selected" class="selected">
+        <h4>Здесь будут выбранные друзья</h4>
+        <div class="list-group" id="selectedToSave" class="selectedToSave">
+            <div class="list-group-style">
+                <div class="row">
+                    <div class="col-xs-12 col-md-12" id="selectedFriends" class="selectedFriends"></div>
                 </div>
             </div>
         </div>
-        {{/each}}
     </div>
-    {{/if}}
-</script>
-    </div>
+    <script type="text/x-handlebars-template" id="friendsItemTemplate">
+        {{#if list}}
+            <div class="list-group" id="toSave">
+                {{#each list}}
+                <div class="list-group-style dnd" >
+                    <div class="row">
+                        <div class="col-xs-12 col-md-12 element">
+                            <div class="myFriend"  id="{{uid}}">
+                                    <img src="{{photo_50}}"/>
+                                    <div class="f-data"><div class="FIO">{{first_name}} {{last_name}}</div> - возраст: {{age}}<p>Дата рождения: {{bdate}}</p></div>
+                                    <div class="addF"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{/each}}
+            </div>
+        {{/if}}
+    </script>
+    <div class="button"><input type="button" value="Сохранить" id="saveButton" class="saveButton"></div>
+</div>
 </body>
 <script type="text/javascript" src="ff1.js"></script>
 <script type="text/javascript" src="ff2.js"></script>

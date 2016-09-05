@@ -17,14 +17,13 @@ var mDown = (e) => {
         if (!activeElement) return; // не нашли, клик вне myFriend-объекта
 
         //document.body.appendChild(activeElement);
+        clientX = e.offsetX;
 
-        clientX = e.clientX;
-
-        clientY = e.clientY;
+        clientY = e.offsetY;
 
         activeElement.style.zIndex = 99999;
 
-        activeElement.style.position = 'absolute';
+        activeElement.style.position = 'fixed';
 
         activeElement.style.width = '420px';
 
@@ -41,8 +40,8 @@ var mUp = (e) => {
     var elem = document.elementFromPoint(e.clientX, e.clientY);// определяем область по координатам
 
     activeElement.hidden = false;
-console.log(elem.parentNode)
-    if(elem.id == 'selected' || elem.parentNode.id == 'selectedFriends')
+
+    if(elem.id == 'selected' || elem.parentNode.id == 'selectedFriends' ||  elem.parentNode.parentNode.id == 'selectedFriends')
         dropFriend(activeElement); //добавляем друга перетаскиванием
     else
         activeElement.style = '';
@@ -59,7 +58,7 @@ var mMove = (e) => {
     if (activeElement) {
         activeElement.style.top = (e.clientY - clientY) + 'px';
 
-        activeElement.style.left = (e.clientX - clientX+12) + 'px';
+        activeElement.style.left = (e.clientX - clientX) + 'px';
     }
 };
 
